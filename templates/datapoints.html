@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+{% block main %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">Datapoints</h1>
+        <p class="text-muted mb-0">
+            General sustainability records for operational reporting
+        </p>
+    </div>
+    <a class="btn btn-primary" href="/datapoints/add">Add datapoint</a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form action="/datapoints" method="get">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label" for="year">Year</label>
+                    <input class="form-control" id="year" name="year" type="number" min="2020" max="2100" value="{{ selected_year or '' }}" placeholder="2026">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="esrs_area">ESRS-relevant area</label>
+                    <select class="form-select" id="esrs_area" name="esrs_area">
+                        <option value="">All areas</option>
+                        <option value="E1 Climate Change" {% if selected_esrs_area == "E1 Climate Change" %}selected{% endif %}>E1 Climate Change</option>
+                        <option value="E2 Pollution" {% if selected_esrs_area == "E2 Pollution" %}selected{% endif %}>E2 Pollution</option>
+                        <option value="E3 Water and Marine Resources" {% if selected_esrs_area == "E3 Water and Marine Resources" %}selected{% endif %}>E3 Water and Marine Resources</option>
+                        <option value="E5 Resource Use and Circular Economy" {% if selected_esrs_area == "E5 Resource Use and Circular Economy" %}selected{% endif %}>E5 Resource Use and Circular Economy</option>
+                        <option value="S1 Own Workforce" {% if selected_esrs_area == "S1 Own Workforce" %}selected{% endif %}>S1 Own Workforce</option>
+                        <option value="G1 Business Conduct" {% if selected_esrs_area == "G1 Business Conduct" %}selected{% endif %}>G1 Business Conduct</option>
+                        <option value="Other Operational KPI" {% if selected_esrs_area == "Other Operational KPI" %}selected{% endif %}>Other Operational KPI</option>
+                    </select>
+
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="status">Status</label>
+                    <select class="form-select" id="status" name="status">
+                        <option value="">All statuses</option>
+                        <option value="Missing" {% if selected_status == "Missing" %}selected{% endif %}>Missing</option>
+                        <option value="In progress" {% if selected_status == "In progress" %}selected{% endif %}>In progress</option>
+                        <option value="Submitted" {% if selected_status == "Submitted" %}selected{% endif %}>Submitted</option>
+                        <option value="Needs review" {% if selected_status == "Needs review" %}selected{% endif %}>Needs review</option>
+                        <option value="Verified" {% if selected_status == "Verified" %}selected{% endif %}>Verified</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="topic">Topic</label>
+                    <select class="form-select" id="topic" name="topic">
+                        <option value="">All topics</option>
+                        <option value="Energy" {% if selected_topic == "Energy" %}selected{% endif %}>Energy</option>
+                        <option value="Emissions" {% if selected_topic == "Emissions" %}selected{% endif %}>Emissions</option>
+                        <option value="Water" {% if selected_topic == "Water" %}selected{% endif %}>Water</option>
+                        <option value="Waste" {% if selected_topic == "Waste" %}selected{% endif %}>Waste</option>
+                        <option value="Materials" {% if selected_topic == "Materials" %}selected{% endif %}>Materials</option>
+                        <option value="Pollution" {% if selected_topic == "Pollution" %}selected{% endif %}>Pollution</option>
+                        <option value="Health and Safety" {% if selected_topic == "Health and Safety" %}selected{% endif %}>Health and Safety</option>
+                        <option value="Training" {% if selected_topic == "Training" %}selected{% endif %}>Training</option>
+                        <option value="Supplier Data" {% if selected_topic == "Supplier Data" %}selected{% endif %}>Supplier Data</option>
+                        <option value="Compliance" {% if selected_topic == "Compliance" %}selected{% endif %}>Compliance</option>
+                        <option value="Other" {% if selected_topic == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Apply filters</button>
+                <a class="btn btn-outline-secondary" href="/datapoints">Clear filters</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if datapoints %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Year</th>
+                            <th class="text-center">Period</th>
+                            <th class="text-center">ESRS area</th>
+                            <th class="text-center">Topic</th>
+                            <th class="text-center">Metric</th>
+                            <th class="text-center">Value</th>
+                            <th class="text-center">Unit</th>
+                            <th class="text-center">Department</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for datapoint in datapoints %}
+                            <tr>
+                                <td>{{ datapoint.reporting_year }}</td>
+                                <td>{{ datapoint.reporting_period }}</td>
+                                <td>{{ datapoint.esrs_area }}</td>
+                                <td>{{ datapoint.topic }}</td>
+                                <td>{{ datapoint.metric_name }}</td>
+                                <td>{{ datapoint.value }}</td>
+                                <td>{{ datapoint.unit }}</td>
+                                <td>{{ datapoint.department }}</td>
+                                <td>{{ datapoint.status }}</td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-secondary" href="/datapoints/edit/{{ datapoint.id }}">View|Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger" href="/datapoints/delete/{{ datapoint.id }}">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                {% if filters_active %}
+                    <h5>No datapoints match the selected filters</h5>
+                    <p class="text-muted">
+                        Try changing the filters or clear them to see all datapoints
+                    </p>
+                    <a class="btn btn-outline-secondary" href="/datapoints">Clear filters</a>
+                {% else %}
+                    <h5>No datapoints yet</h5>
+                    <p class="text-muted">
+                        Start by adding your first sustainability datapoint
+                    </p>
+                    <a class="btn btn-primary" href="/datapoints/add">Add datapoint</a>
+                {% endif %}
+            </div>
+
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+

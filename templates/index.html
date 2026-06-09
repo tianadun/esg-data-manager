@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main %}
+
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h2">{{ company_name }}</h1>
+        <p class="text-muted mb-0">Operational sustainability reporting dashboard</p>
+    </div>
+
+    <!-- Main emissions overview -->
+    <div class="mb-4">
+        <h2 class="h4 mb-3">Main emissions overview</h2>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Total calculated emissions</div>
+                    <div class="h3 mt-2">{{ "%.2f"|format(total_emissions_t) }}</div>
+                    <div class="text-muted small">tCO2e</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Scope 1 emissions</div>
+                    <div class="h3 mt-2">{{ "%.2f"|format(emissions_by_scope["Scope 1"]) }}</div>
+                    <div class="text-muted small">tCO2e</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Scope 2 emissions</div>
+                    <div class="h3 mt-2">{{ "%.2f"|format(emissions_by_scope["Scope 2"]) }}</div>
+                    <div class="text-muted small">tCO2e</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Scope 3 emissions</div>
+                    <div class="h3 mt-2">{{ "%.2f"|format(emissions_by_scope["Scope 3"]) }}</div>
+                    <div class="text-muted small">tCO2e</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Largest emissions category -->
+    <div class="mb-4">
+        <h2 class="h4 mb-3">Emissions hotspot</h2>
+        <div class="card shadow-sm p-3">
+            <div class="text-muted small">Largest emissions category</div>
+            {% if largest_category %}
+                <div class="h4 mt-2 mb-1">{{ largest_category }}</div>
+                <div>{{ "%.2f"|format(largest_category_emissions_t) }} tCO2e</div>
+            {% else %}
+                <div class="h5 mt-2 mb-1">No emissions data yet</div>
+                <div class="text-muted">Add emissions records to identify the largest category.</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Reporting readiness -->
+    <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Reporting readiness</h2>
+        <a href="/quality" class="btn btn-outline-primary btn-sm">View quality check</a>
+    </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <a href="/quality" class="text-decoration-none text-dark">
+                    <div class="card shadow-sm p-3 h-100">
+                        <div class="text-muted small">Records needing review</div>
+                        <div class="h3 mt-2">{{ records_needing_review }}</div>
+                        <div class="text-muted small">Missing + Needs review</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="/quality" class="text-decoration-none text-dark">
+                    <div class="card shadow-sm p-3 h-100">
+                        <div class="text-muted small">Missing evidence links</div>
+                        <div class="h3 mt-2">{{ missing_evidence_links }}</div>
+                        <div class="text-muted small">Records without evidence links</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Verified records</div>
+                    <div class="h3 mt-2">{{ verified_records }}</div>
+                    <div class="text-muted small">Datapoints and emissions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dataset overview -->
+    <div class="mb-4">
+        <h2 class="h4 mb-3">Dataset overview</h2>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Datapoints</div>
+                    <div class="h3 mt-2">{{ datapoint_count }}</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Emissions records</div>
+                    <div class="h3 mt-2">{{ emission_count }}</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="text-muted small">Total reporting items</div>
+                    <div class="h3 mt-2">{{ total_items }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status summary -->
+
+    <div class="mb-4">
+        <h2 class="h4 mb-3">Status summary</h2>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card shadow-sm p-3 h-100">
+                    <h3 class="h5 mb-3">Datapoints by status</h3>
+                    <table class="table table-sm mb-0">
+                        <tbody>
+                            {% for status, count in datapoint_status_counts.items() %}
+                                <tr>
+                                    <td>{{ status }}</td>
+                                    <td class="text-end">{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm p-3 h-100">
+                    <h3 class="h5 mb-3">Emissions by status</h3>
+                    <table class="table table-sm mb-0">
+                        <tbody>
+                            {% for status, count in emission_status_counts.items() %}
+                                <tr>
+                                    <td>{{ status }}</td>
+                                    <td class="text-end">{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="mb-4">
+        <h2 class="h4 mb-3">Navigation</h2>
+        <div class="d-flex gap-2">
+            <a href="/datapoints" class="btn btn-primary">View datapoints</a>
+            <a href="/emissions" class="btn btn-success">View emissions</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

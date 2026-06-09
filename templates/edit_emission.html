@@ -1,0 +1,241 @@
+{% extends "layout.html" %}
+{% block title %}
+    Edit emission record
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h3">Edit emission record</h1>
+        <p class="text-muted">
+            Update activity data, emission factor, evidence, or status. The app will recalculate emissions in tCO2e.
+        </p>
+    </div>
+
+    <form action="/emissions/edit/{{ emission.id }}" method="post" class="card shadow-sm p-4">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="reporting_year" class="form-label">Reporting year</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="reporting_year"
+                    name="reporting_year"
+                    min="2020"
+                    max="2100"
+                    value="{{ emission.reporting_year }}"
+                    required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="reporting_period" class="form-label">Reporting period</label>
+                <select class="form-select" id="reporting_period" name="reporting_period" required>
+                    <option value="">Select period</option>
+                    <option value="Q1" {% if emission.reporting_period == "Q1" %}selected{% endif %}>Q1</option>
+                    <option value="Q2" {% if emission.reporting_period == "Q2" %}selected{% endif %}>Q2</option>
+                    <option value="Q3" {% if emission.reporting_period == "Q3" %}selected{% endif %}>Q3</option>
+                    <option value="Q4" {% if emission.reporting_period == "Q4" %}selected{% endif %}>Q4</option>
+                    <option value="Full year" {% if emission.reporting_period == "Full year" %}selected{% endif %}>Full year</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="scope" class="form-label">Scope</label>
+                <select class="form-select" id="scope" name="scope" required>
+                    <option value="">Select scope</option>
+                    <option value="Scope 1" {% if emission.scope == "Scope 1" %}selected{% endif %}>Scope 1</option>
+                    <option value="Scope 2" {% if emission.scope == "Scope 2" %}selected{% endif %}>Scope 2</option>
+                    <option value="Scope 3" {% if emission.scope == "Scope 3" %}selected{% endif %}>Scope 3</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="emissions_category" class="form-label">Emissions category</label>
+                <select class="form-select" id="emissions_category" name="emissions_category" required>
+                    <option value="">Select emissions category</option>
+                    <option value="Stationary combustion" {% if emission.emissions_category == "Stationary combustion" %}selected{% endif %}>Stationary combustion</option>
+                    <option value="Mobile combustion" {% if emission.emissions_category == "Mobile combustion" %}selected{% endif %}>Mobile combustion</option>
+                    <option value="Process emissions" {% if emission.emissions_category == "Process emissions" %}selected{% endif %}>Process emissions</option>
+                    <option value="Fugitive emissions" {% if emission.emissions_category == "Fugitive emissions" %}selected{% endif %}>Fugitive emissions</option>
+                    <option value="Purchased electricity" {% if emission.emissions_category == "Purchased electricity" %}selected{% endif %}>Purchased electricity</option>
+                    <option value="Purchased heat, steam or cooling" {% if emission.emissions_category == "Purchased heat, steam or cooling" %}selected{% endif %}>Purchased heat, steam or cooling</option>
+                    <option value="Purchased goods and services" {% if emission.emissions_category == "Purchased goods and services" %}selected{% endif %}>Purchased goods and services</option>
+                    <option value="Fuel- and energy-related activities" {% if emission.emissions_category == "Fuel- and energy-related activities" %}selected{% endif %}>Fuel- and energy-related activities</option>
+                    <option value="Upstream transportation and distribution" {% if emission.emissions_category == "Upstream transportation and distribution" %}selected{% endif %}>Upstream transportation and distribution</option>
+                    <option value="Waste generated in operations" {% if emission.emissions_category == "Waste generated in operations" %}selected{% endif %}>Waste generated in operations</option>
+                    <option value="Employee commuting" {% if emission.emissions_category == "Employee commuting" %}selected{% endif %}>Employee commuting</option>
+                    <option value="End-of-life treatment of sold products" {% if emission.emissions_category == "End-of-life treatment of sold products" %}selected{% endif %}>End-of-life treatment of sold products</option>
+                    <option value="Other" {% if emission.emissions_category == "Other" %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="activity_type" class="form-label">Activity type</label>
+            <input
+                type="text"
+                class="form-control"
+                id="activity_type"
+                name="activity_type"
+                value="{{ emission.activity_type }}"
+                required>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="activity_value" class="form-label">Activity value</label>
+                <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    class="form-control"
+                    id="activity_value"
+                    name="activity_value"
+                    value="{{ emission.activity_value }}"
+                    required>
+                <div class="form-text">Non-negative</div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="activity_unit" class="form-label">Activity unit</label>
+                <select class="form-select" id="activity_unit" name="activity_unit" required>
+                    <option value="">Select activity unit</option>
+                    <option value="kWh" {% if emission.activity_unit == "kWh" %}selected{% endif %}>kWh</option>
+                    <option value="MWh" {% if emission.activity_unit == "MWh" %}selected{% endif %}>MWh</option>
+                    <option value="GWh" {% if emission.activity_unit == "GWh" %}selected{% endif %}>GWh</option>
+                    <option value="m³" {% if emission.activity_unit == "m³" %}selected{% endif %}>m³</option>
+                    <option value="litres" {% if emission.activity_unit == "litres" %}selected{% endif %}>litres</option>
+                    <option value="kg" {% if emission.activity_unit == "kg" %}selected{% endif %}>kg</option>
+                    <option value="tonnes" {% if emission.activity_unit == "tonnes" %}selected{% endif %}>tonnes</option>
+                    <option value="km" {% if emission.activity_unit == "km" %}selected{% endif %}>km</option>
+                    <option value="tonne-km" {% if emission.activity_unit == "tonne-km" %}selected{% endif %}>tonne-km</option>
+                    <option value="passenger-km" {% if emission.activity_unit == "passenger-km" %}selected{% endif %}>passenger-km</option>
+                    <option value="units sold" {% if emission.activity_unit == "units sold" %}selected{% endif %}>units sold</option>
+                    <option value="SEK" {% if emission.activity_unit == "SEK" %}selected{% endif %}>SEK</option>
+                    <option value="EUR" {% if emission.activity_unit == "EUR" %}selected{% endif %}>EUR</option>
+                    <option value="number" {% if emission.activity_unit == "number" %}selected{% endif %}>number</option>
+                    <option value="Other" {% if emission.activity_unit == "Other" %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="emission_factor" class="form-label">Emission factor</label>
+                <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    class="form-control"
+                    id="emission_factor"
+                    name="emission_factor"
+                    value="{{ emission.emission_factor }}"
+                    required>
+                <div class="form-text">Non-negative</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="emission_factor_unit" class="form-label">Emission factor unit</label>
+                <select class="form-select" id="emission_factor_unit" name="emission_factor_unit" required>
+                    <option value="">Select emission factor unit</option>
+                    <option value="kg CO2e/kWh" {% if emission.emission_factor_unit == "kg CO2e/kWh" %}selected{% endif %}>kg CO2e/kWh</option>
+                    <option value="kg CO2e/MWh" {% if emission.emission_factor_unit == "kg CO2e/MWh" %}selected{% endif %}>kg CO2e/MWh</option>
+                    <option value="kg CO2e/GWh" {% if emission.emission_factor_unit == "kg CO2e/GWh" %}selected{% endif %}>kg CO2e/GWh</option>
+                    <option value="kg CO2e/m³" {% if emission.emission_factor_unit == "kg CO2e/m³" %}selected{% endif %}>kg CO2e/m³</option>
+                    <option value="kg CO2e/litre" {% if emission.emission_factor_unit == "kg CO2e/litre" %}selected{% endif %}>kg CO2e/litre</option>
+                    <option value="kg CO2e/kg" {% if emission.emission_factor_unit == "kg CO2e/kg" %}selected{% endif %}>kg CO2e/kg</option>
+                    <option value="kg CO2e/tonne" {% if emission.emission_factor_unit == "kg CO2e/tonne" %}selected{% endif %}>kg CO2e/tonne</option>
+                    <option value="kg CO2e/km" {% if emission.emission_factor_unit == "kg CO2e/km" %}selected{% endif %}>kg CO2e/km</option>
+                    <option value="kg CO2e/tonne-km" {% if emission.emission_factor_unit == "kg CO2e/tonne-km" %}selected{% endif %}>kg CO2e/tonne-km</option>
+                    <option value="kg CO2e/passenger-km" {% if emission.emission_factor_unit == "kg CO2e/passenger-km" %}selected{% endif %}>kg CO2e/passenger-km</option>
+                    <option value="kg CO2e/unit sold" {% if emission.emission_factor_unit == "kg CO2e/unit sold" %}selected{% endif %}>kg CO2e/unit sold</option>
+                    <option value="kg CO2e/SEK" {% if emission.emission_factor_unit == "kg CO2e/SEK" %}selected{% endif %}>kg CO2e/SEK</option>
+                    <option value="kg CO2e/EUR" {% if emission.emission_factor_unit == "kg CO2e/EUR" %}selected{% endif %}>kg CO2e/EUR</option>
+                    <option value="kg CO2e/number" {% if emission.emission_factor_unit == "kg CO2e/number" %}selected{% endif %}>kg CO2e/number</option>
+                    <option value="Other" {% if emission.emission_factor_unit == "Other" %}selected{% endif %}>Other</option>
+                </select>
+
+                <div class="form-text">
+                    Make sure the emission factor unit matches the activity unit, e.g. kWh with kg CO2e/kWh.
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="emission_factor_source" class="form-label">Emission factor source</label>
+            <input
+                type="text"
+                class="form-control"
+                id="emission_factor_source"
+                name="emission_factor_source"
+                value="{{ emission.emission_factor_source or '' }}">
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="department" class="form-label">Department/function</label>
+                <select class="form-select" id="department" name="department" required>
+                    <option value="">Select department</option>
+                    <option value="Operations" {% if emission.department == "Operations" %}selected{% endif %}>Operations</option>
+                    <option value="Production" {% if emission.department == "Production" %}selected{% endif %}>Production</option>
+                    <option value="Procurement" {% if emission.department == "Procurement" %}selected{% endif %}>Procurement</option>
+                    <option value="Logistics" {% if emission.department == "Logistics" %}selected{% endif %}>Logistics</option>
+                    <option value="Finance" {% if emission.department == "Finance" %}selected{% endif %}>Finance</option>
+                    <option value="HR" {% if emission.department == "HR" %}selected{% endif %}>HR</option>
+                    <option value="Sustainability" {% if emission.department == "Sustainability" %}selected{% endif %}>Sustainability</option>
+                    <option value="Other" {% if emission.department == "Other" %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status" required>
+                    <option value="">Select status</option>
+                    <option value="Missing" {% if emission.status == "Missing" %}selected{% endif %}>Missing</option>
+                    <option value="In progress" {% if emission.status == "In progress" %}selected{% endif %}>In progress</option>
+                    <option value="Submitted" {% if emission.status == "Submitted" %}selected{% endif %}>Submitted</option>
+                    <option value="Needs review" {% if emission.status == "Needs review" %}selected{% endif %}>Needs review</option>
+                    <option value="Verified" {% if emission.status == "Verified" %}selected{% endif %}>Verified</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="data_source" class="form-label">Data source</label>
+            <input
+                type="text"
+                class="form-control"
+                id="data_source"
+                name="data_source"
+                value="{{ emission.data_source or '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="evidence_link" class="form-label">Evidence link</label>
+            <input
+                type="text"
+                class="form-control"
+                id="evidence_link"
+                name="evidence_link"
+                value="{{ emission.evidence_link or '' }}">
+        </div>
+
+        <div class="mb-4">
+            <label for="notes" class="form-label">Notes</label>
+            <textarea
+                class="form-control"
+                id="notes"
+                name="notes"
+                rows="3">{{ emission.notes or '' }}</textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="/emissions" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-success">Save changes</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

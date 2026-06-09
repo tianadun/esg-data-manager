@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% block main %}
+
+<div class="mb-4">
+    <h1 class="mb-1">Edit datapoint</h1>
+    <p class="text-muted mb-0">
+        Update an existing sustainability datapoint
+    </p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form action="/datapoints/edit/{{ datapoint.id }}" method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="reporting_year">Reporting year</label>
+                    <input class="form-control" id="reporting_year" name="reporting_year" required type="number" min="2020" max="2100" value="{{ datapoint.reporting_year }}">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="reporting_period">Reporting period</label>
+                    <select class="form-select" id="reporting_period" name="reporting_period" required>
+                        <option value="Q1" {% if datapoint.reporting_period == "Q1" %}selected{% endif %}>Q1</option>
+                        <option value="Q2" {% if datapoint.reporting_period == "Q2" %}selected{% endif %}>Q2</option>
+                        <option value="Q3" {% if datapoint.reporting_period == "Q3" %}selected{% endif %}>Q3</option>
+                        <option value="Q4" {% if datapoint.reporting_period == "Q4" %}selected{% endif %}>Q4</option>
+                        <option value="Full year" {% if datapoint.reporting_period == "Full year" %}selected{% endif %}>Full year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="esrs_area">ESRS-relevant area</label>
+                    <select class="form-select" id="esrs_area" name="esrs_area" required>
+                        <option value="E1 Climate Change" {% if datapoint.esrs_area == "E1 Climate Change" %}selected{% endif %}>E1 Climate Change</option>
+                        <option value="E2 Pollution" {% if datapoint.esrs_area == "E2 Pollution" %}selected{% endif %}>E2 Pollution</option>
+                        <option value="E3 Water and Marine Resources" {% if datapoint.esrs_area == "E3 Water and Marine Resources" %}selected{% endif %}>E3 Water and Marine Resources</option>
+                        <option value="E5 Resource Use and Circular Economy" {% if datapoint.esrs_area == "E5 Resource Use and Circular Economy" %}selected{% endif %}>E5 Resource Use and Circular Economy</option>
+                        <option value="S1 Own Workforce" {% if datapoint.esrs_area == "S1 Own Workforce" %}selected{% endif %}>S1 Own Workforce</option>
+                        <option value="G1 Business Conduct" {% if datapoint.esrs_area == "G1 Business Conduct" %}selected{% endif %}>G1 Business Conduct</option>
+                        <option value="Other Operational KPI" {% if datapoint.esrs_area == "Other Operational KPI" %}selected{% endif %}>Other Operational KPI</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="topic">Topic</label>
+                    <select class="form-select" id="topic" name="topic" required>
+                        <option value="Energy" {% if datapoint.topic == "Energy" %}selected{% endif %}>Energy</option>
+                        <option value="Emissions" {% if datapoint.topic == "Emissions" %}selected{% endif %}>Emissions</option>
+                        <option value="Water" {% if datapoint.topic == "Water" %}selected{% endif %}>Water</option>
+                        <option value="Waste" {% if datapoint.topic == "Waste" %}selected{% endif %}>Waste</option>
+                        <option value="Materials" {% if datapoint.topic == "Materials" %}selected{% endif %}>Materials</option>
+                        <option value="Pollution" {% if datapoint.topic == "Pollution" %}selected{% endif %}>Pollution</option>
+                        <option value="Health and Safety" {% if datapoint.topic == "Health and Safety" %}selected{% endif %}>Health and Safety</option>
+                        <option value="Training" {% if datapoint.topic == "Training" %}selected{% endif %}>Training</option>
+                        <option value="Supplier Data" {% if datapoint.topic == "Supplier Data" %}selected{% endif %}>Supplier Data</option>
+                        <option value="Compliance" {% if datapoint.topic == "Compliance" %}selected{% endif %}>Compliance</option>
+                        <option value="Other" {% if datapoint.topic == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="metric_name">Metric name</label>
+                <input autocomplete="off" class="form-control" id="metric_name" name="metric_name" required type="text" value="{{ datapoint.metric_name }}">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="value">Value</label>
+                    <input class="form-control" id="value" name="value" type="number" step="any" min="0" value="{{ datapoint.value if datapoint.value is not none else '' }}">
+                    <div class="form-text">Non-negative</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="unit">Unit</label>
+                    <select class="form-select" id="unit" name="unit">
+                        <option value="" {% if not datapoint.unit %}selected{% endif %}>Select unit</option>
+                        <option value="kWh" {% if datapoint.unit == "kWh" %}selected{% endif %}>kWh</option>
+                        <option value="MWh" {% if datapoint.unit == "MWh" %}selected{% endif %}>MWh</option>
+                        <option value="GWh" {% if datapoint.unit == "GWh" %}selected{% endif %}>GWh</option>
+                        <option value="m3" {% if datapoint.unit == "m3" %}selected{% endif %}>m³</option>
+                        <option value="litres" {% if datapoint.unit == "litres" %}selected{% endif %}>litres</option>
+                        <option value="kg" {% if datapoint.unit == "kg" %}selected{% endif %}>kg</option>
+                        <option value="tonnes" {% if datapoint.unit == "tonnes" %}selected{% endif %}>tonnes</option>
+                        <option value="%" {% if datapoint.unit == "%" %}selected{% endif %}>%</option>
+                        <option value="number" {% if datapoint.unit == "number" %}selected{% endif %}>number</option>
+                        <option value="hours" {% if datapoint.unit == "hours" %}selected{% endif %}>hours</option>
+                        <option value="SEK" {% if datapoint.unit == "SEK" %}selected{% endif %}>SEK</option>
+                        <option value="EUR" {% if datapoint.unit == "EUR" %}selected{% endif %}>EUR</option>
+                        <option value="Other" {% if datapoint.unit == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="department">Responsible department</label>
+                    <select class="form-select" id="department" name="department" required>
+                        <option value="Operations" {% if datapoint.department == "Operations" %}selected{% endif %}>Operations</option>
+                        <option value="Production" {% if datapoint.department == "Production" %}selected{% endif %}>Production</option>
+                        <option value="Procurement" {% if datapoint.department == "Procurement" %}selected{% endif %}>Procurement</option>
+                        <option value="Logistics" {% if datapoint.department == "Logistics" %}selected{% endif %}>Logistics</option>
+                        <option value="HR" {% if datapoint.department == "HR" %}selected{% endif %}>HR</option>
+                        <option value="Finance" {% if datapoint.department == "Finance" %}selected{% endif %}>Finance</option>
+                        <option value="Sustainability" {% if datapoint.department == "Sustainability" %}selected{% endif %}>Sustainability</option>
+                        <option value="EHS" {% if datapoint.department == "EHS" %}selected{% endif %}>EHS</option>
+                        <option value="Facility Management" {% if datapoint.department == "Facility Management" %}selected{% endif %}>Facility Management</option>
+                        <option value="Other" {% if datapoint.department == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="status">Status</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="Missing" {% if datapoint.status == "Missing" %}selected{% endif %}>Missing</option>
+                        <option value="In progress" {% if datapoint.status == "In progress" %}selected{% endif %}>In progress</option>
+                        <option value="Submitted" {% if datapoint.status == "Submitted" %}selected{% endif %}>Submitted</option>
+                        <option value="Needs review" {% if datapoint.status == "Needs review" %}selected{% endif %}>Needs review</option>
+                        <option value="Verified" {% if datapoint.status == "Verified" %}selected{% endif %}>Verified</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="data_source">Data source</label>
+                <input autocomplete="off" class="form-control" id="data_source" name="data_source" type="text" value="{{ datapoint.data_source or '' }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="evidence_link">Evidence link or reference</label>
+                <input autocomplete="off" class="form-control" id="evidence_link" name="evidence_link" type="text" value="{{ datapoint.evidence_link or '' }}">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="notes">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="3">{{ datapoint.notes or '' }}</textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" href="/datapoints">Cancel</a>
+                <button class="btn btn-primary" type="submit">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

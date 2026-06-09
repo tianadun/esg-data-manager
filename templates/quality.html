@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block title %}
+    Quality Check
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h3">Quality Check</h1>
+        <p class="text-muted">
+            Review records that may need attention before reporting:
+        </p>
+    </div>
+
+    <!-- Summary card -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3 h-100">
+                <div class="text-muted small">Records with quality issues:</div>
+                <div class="h3 mt-2">{{ total_issues }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Combined issue list -->
+    <div class="card shadow-sm p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h4 mb-0">Combined issue list</h2>
+        </div>
+
+        {% if quality_issues %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Type</th>
+                            <th class="text-center">Record</th>
+                            <th class="text-center">Year</th>
+                            <th class="text-center">Period</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Issues</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for issue in quality_issues %}
+                            <tr>
+                                <td>{{ issue.record_type }}</td>
+                                <td>{{ issue.record_name }}</td>
+                                <td class="text-center">{{ issue.year }}</td>
+                                <td class="text-center">{{ issue.period }}</td>
+                                <td>{{ issue.status }}</td>
+                                <td>
+
+                                    {% for item in issue.issues %}
+                                        <span class="badge text-bg-warning me-1 mb-1">
+                                            {{ item }}
+                                        </span>
+                                    {% endfor %}
+
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ issue.edit_url }}" class="btn btn-sm btn-outline-primary">
+                                        View|Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        {% else %}
+            <div class="text-center py-5">
+                <h3 class="h5">No quality issues found</h3>
+                <p class="text-muted mb-0">
+                    All current records have sufficient source and evidence information according to the check.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

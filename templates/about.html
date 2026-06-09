@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+{% block title %}
+    About
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h3">About ESG Data Manager</h1>
+        <p class="text-muted">
+            Prototype for operational sustainability reporting · T.Dunaeva · 2026
+        </p>
+    </div>
+    {% if not session.get("user_id") %}
+            <div class="mt-3">
+                <a href="/register" class="btn btn-primary me-2">Register</a>
+                <a href="/login" class="btn btn-outline-secondary">Login</a>
+            </div>
+    {% endif %}
+
+    <div class="card shadow-sm p-4 mb-4">
+        <h2 class="h5">Purpose</h2>
+        <p>
+            ESG Data Manager is a prototype web application for organising 
+            sustainability reporting data. It is designed to help a company collect,
+            structure, review, and export sustainability datapoints and greenhouse gas
+            emissions records in a simple reporting workflow.
+        </p>
+
+        <p>
+            The application focuses on the practical data-management side of sustainability
+            reporting: keeping records structured, tracking their status, documenting data
+            sources and evidence links, and preparing information for further analysis or
+            reporting work.
+        </p>
+    </div>
+    <div class="card shadow-sm p-4 mb-4">
+        <h2 class="h5">How to use the app</h2>
+        <p>
+            After registration and login, the dashboard gives an overview of the selected
+            company’s sustainability dataset. It shows total calculated emissions in tCO2e,
+            emissions by scope, the largest emissions category, reporting-readiness indicators,
+            dataset size, and status summaries.
+        </p>
+
+        <p>
+            The Datapoints module is used for sustainability metrics such as energy, water,
+            waste, financial, workforce, or other ESRS-relevant operational datapoints.
+            Each datapoint can include a reporting year, period, topic, metric name, value,
+            unit, department, data source, evidence link, status, and notes.
+        </p>
+
+        <p>
+            The Emissions module is used for greenhouse gas emissions records. Users enter
+            activity data and an emission factor, and the app calculates emissions and displays
+            them in tCO2e. Emissions can be classified by Scope 1, Scope 2, or Scope 3 and by
+            emissions category.
+        </p>
+
+        <p>
+            The Quality Check page lists records that may need attention before reporting,
+            such as records with missing evidence links, missing data sources, missing emission
+            factor sources, or statuses marked as Missing or Needs review.
+        </p>
+
+        <p>
+            The Export page allows users to download the full datapoints and emissions datasets
+            as CSV files for further work in tools such as Excel, Numbers, Power BI, or other
+            reporting systems.
+        </p>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4">
+        <h2 class="h5">What the prototype includes</h2>
+        <ul class="mb-0">
+            <li>User registration, login, and company-specific records.</li>
+            <li>A dashboard for emissions and reporting-readiness overview.</li>
+            <li>A sustainability datapoints module with add, edit, delete, and filter functions.</li>
+            <li>An emissions module with add, edit, delete, filter, and automatic calculation functions.</li>
+            <li>A combined Quality Check page for identifying records that need attention.</li>
+            <li>CSV export for datapoints and emissions records.</li>
+        </ul>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4">
+        <h2 class="h5">Important limitations</h2>
+        <p>
+            This application is an educational prototype, not a complete CSRD compliance
+            platform, certified carbon accounting tool, or external assurance system.
+            It supports structured data collection and review, but it does not determine
+            whether a company fully complies with any legal reporting requirement.
+        </p>
+
+        <p>
+            Emission factors are entered manually by the user. The app does not currently
+            include an automatic emission factor database, supplier-specific factor library,
+            or external API connection. Users are responsible for choosing appropriate
+            emission factors and ensuring that activity units match emission factor units.
+        </p>
+
+        <p>
+            Scope 3 coverage is simplified. The app includes selected emissions categories
+            relevant for a prototype, but it does not implement the full complexity of
+            Scope 3 accounting, supplier data collection, product-level lifecycle assessment,
+            or complete value-chain modelling.
+        </p>
+
+        <p>
+            Evidence links and data sources are stored as text references. The prototype does
+            not upload or manage source documents directly and does not include a full audit
+            trail or approval workflow.
+        </p>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4">
+        <h2 class="h5">Possible future development</h2>
+        <ul class="mb-0">
+            <li>User roles, reviewer permissions, and approval workflows.</li>
+            <li>Audit trail showing who changed records and when.</li>
+            <li>CSV import and validation of uploaded datasets.</li>
+            <li>Emission factor library or integration with external factor databases.</li>
+            <li>Charts, trend analysis, and year-on-year comparisons.</li>
+            <li>More advanced Scope 3 categories and supplier-data workflows.</li>
+            <li>Integration with Power BI or other reporting and analytics tools.</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

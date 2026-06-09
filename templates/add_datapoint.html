@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+{% block main %}
+
+<div class="mb-4">
+    <h1 class="mb-1">Add datapoint</h1>
+    <p class="text-muted mb-0">
+        Add a general sustainability datapoint for operational reporting
+    </p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form action="/datapoints/add" method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="reporting_year">Reporting year</label>
+                    <input class="form-control" id="reporting_year" name="reporting_year" required type="number" min="2020" max="2100" placeholder="2026">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="reporting_period">Reporting period</label>
+                    <select class="form-select" id="reporting_period" name="reporting_period" required>
+                        <option value="" selected disabled>Select period</option>
+                        <option value="Q1">Q1</option>
+                        <option value="Q2">Q2</option>
+                        <option value="Q3">Q3</option>
+                        <option value="Q4">Q4</option>
+                        <option value="Full year">Full year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="esrs_area">ESRS-relevant area</label>
+                    <select class="form-select" id="esrs_area" name="esrs_area" required>
+                        <option value="" selected disabled>Select area</option>
+                        <option value="E1 Climate Change">E1 Climate Change</option>
+                        <option value="E2 Pollution">E2 Pollution</option>
+                        <option value="E3 Water and Marine Resources">E3 Water and Marine Resources</option>
+                        <option value="E5 Resource Use and Circular Economy">E5 Resource Use and Circular Economy</option>
+                        <option value="S1 Own Workforce">S1 Own Workforce</option>
+                        <option value="G1 Business Conduct">G1 Business Conduct</option>
+                        <option value="Other Operational KPI">Other Operational KPI</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="topic">Topic</label>
+                    <select class="form-select" id="topic" name="topic" required>
+                        <option value="" selected disabled>Select topic</option>
+                        <option value="Energy">Energy</option>
+                        <option value="Emissions">Emissions</option>
+                        <option value="Water">Water</option>
+                        <option value="Waste">Waste</option>
+                        <option value="Materials">Materials</option>
+                        <option value="Pollution">Pollution</option>
+                        <option value="Health and Safety">Health and Safety</option>
+                        <option value="Training">Training</option>
+                        <option value="Supplier Data">Supplier Data</option>
+                        <option value="Compliance">Compliance</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="metric_name">Metric name</label>
+                <input autocomplete="off" class="form-control" id="metric_name" name="metric_name" required type="text" placeholder="Purchased electricity, water withdrawal, hazardous waste">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="value">Value</label>
+                    <input class="form-control" id="value" name="value" type="number" step="any" min="0" placeholder="12500">
+                    <div class="form-text">Non-negative</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="unit">Unit</label>
+                    <select class="form-select" id="unit" name="unit">
+                    <option value="" selected>Select unit</option>
+                        <option value="kWh">kWh</option>
+                        <option value="MWh">MWh</option>
+                        <option value="GWh">GWh</option>
+                        <option value="m3">m³</option>
+                        <option value="litres">litres</option>
+                        <option value="kg">kg</option>
+                        <option value="tonnes">tonnes</option>
+                        <option value="%">%</option>
+                        <option value="number">number</option>
+                        <option value="hours">hours</option>
+                        <option value="SEK">SEK</option>
+                        <option value="EUR">EUR</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="department">Responsible department</label>
+                    <select class="form-select" id="department" name="department" required>
+                        <option value="" selected disabled>Select department</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Production">Production</option>
+                        <option value="Procurement">Procurement</option>
+                        <option value="Logistics">Logistics</option>
+                        <option value="HR">HR</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Sustainability">Sustainability</option>
+                        <option value="EHS">EHS</option>
+                        <option value="Facility Management">Facility Management</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label" for="status">Status</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="" selected disabled>Select status</option>
+                        <option value="Missing">Missing</option>
+                        <option value="In progress">In progress</option>
+                        <option value="Submitted">Submitted</option>
+                        <option value="Needs review">Needs review</option>
+                        <option value="Verified">Verified</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="data_source">Data source</label>
+                <input autocomplete="off" class="form-control" id="data_source" name="data_source" type="text" placeholder="Utility invoice, ERP export, supplier report">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="evidence_link">Evidence link or reference</label>
+                <input autocomplete="off" class="form-control" id="evidence_link" name="evidence_link" type="text" placeholder="Invoice folder, SharePoint link, internal file reference">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="notes">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Any assumptions, comments, or follow-up needs"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-outline-secondary" href="/datapoints">Cancel</a>
+                <button class="btn btn-primary" type="submit">Save datapoint</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

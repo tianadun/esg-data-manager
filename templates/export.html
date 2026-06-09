@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}
+    Export
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h3">Export data</h1>
+        <p class="text-muted">
+            Download the full datapoints and emissions datasets as CSV files
+        </p>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4 h-100">
+                <h2 class="h5">Datapoints export</h2>
+                <p class="text-muted">
+                    Export all sustainability datapoints for the current user.
+                </p>
+                <a href="/export/datapoints" class="btn btn-primary">
+                    Download datapoints CSV
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4 h-100">
+                <h2 class="h5">Emissions export</h2>
+                <p class="text-muted">
+                    Export all emissions records for the current user.
+                </p>
+                <a href="/export/emissions" class="btn btn-success">
+                    Download emissions CSV
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

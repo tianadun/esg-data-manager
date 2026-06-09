@@ -1,0 +1,239 @@
+{% extends "layout.html" %}
+{% block title %}
+    Add emission record
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h3">Add emission record</h1>
+        <p class="text-muted">
+            Enter activity data and an emission factor. The app will calculate emissions in tCO2e.
+        </p>
+    </div>
+
+    <form action="/emissions/add" method="post" class="card shadow-sm p-4">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="reporting_year" class="form-label">Reporting year</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="reporting_year"
+                    name="reporting_year"
+                    min="2020"
+                    max="2100"
+                    required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="reporting_period" class="form-label">Reporting period</label>
+                <select class="form-select" id="reporting_period" name="reporting_period" required>
+                    <option value="">Select period</option>
+                    <option value="Q1">Q1</option>
+                    <option value="Q2">Q2</option>
+                    <option value="Q3">Q3</option>
+                    <option value="Q4">Q4</option>
+                    <option value="Full year">Full year</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="scope" class="form-label">Scope</label>
+                <select class="form-select" id="scope" name="scope" required>
+                    <option value="">Select scope</option>
+                    <option value="Scope 1">Scope 1</option>
+                    <option value="Scope 2">Scope 2</option>
+                    <option value="Scope 3">Scope 3</option>
+                </select>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="emissions_category" class="form-label">Emissions category</label>
+                <select class="form-select" id="emissions_category" name="emissions_category" required>
+                    <option value="">Select emissions category</option>
+                    <option value="Stationary combustion">Stationary combustion</option>
+                    <option value="Mobile combustion">Mobile combustion</option>
+                    <option value="Process emissions">Process emissions</option>
+                    <option value="Fugitive emissions">Fugitive emissions</option>
+                    <option value="Purchased electricity">Purchased electricity</option>
+                    <option value="Purchased heat, steam or cooling">Purchased heat, steam or cooling</option>
+                    <option value="Purchased goods and services">Purchased goods and services</option>
+                    <option value="Fuel- and energy-related activities">Fuel- and energy-related activities</option>
+                    <option value="Upstream transportation and distribution">Upstream transportation and distribution</option>
+                    <option value="Waste generated in operations">Waste generated in operations</option>
+                    <option value="Employee commuting">Employee commuting</option>
+                    <option value="End-of-life treatment of sold products">End-of-life treatment of sold products</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="activity_type" class="form-label">Activity type</label>
+            <input
+                type="text"
+                class="form-control"
+                id="activity_type"
+                name="activity_type"
+                placeholder="Example: Purchased electricity, diesel use, waste treatment"
+                required>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="activity_value" class="form-label">Activity value</label>
+                <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    class="form-control"
+                    id="activity_value"
+                    name="activity_value"
+                    required>
+                <div class="form-text">Non-negative</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="activity_unit" class="form-label">Activity unit</label>
+                <select class="form-select" id="activity_unit" name="activity_unit" required>
+                    <option value="">Select activity unit</option>
+                    <option value="kWh">kWh</option>
+                    <option value="MWh">MWh</option>
+                    <option value="GWh">GWh</option>
+                    <option value="m³">m³</option>
+                    <option value="litres">litres</option>
+                    <option value="kg">kg</option>
+                    <option value="tonnes">tonnes</option>
+                    <option value="km">km</option>
+                    <option value="tonne-km">tonne-km</option>
+                    <option value="passenger-km">passenger-km</option>
+                    <option value="units sold">units sold</option>
+                    <option value="SEK">SEK</option>
+                    <option value="EUR">EUR</option>
+                    <option value="number">number</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="emission_factor" class="form-label">Emission factor</label>
+                <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    class="form-control"
+                    id="emission_factor"
+                    name="emission_factor"
+                    required>
+                <div class="form-text">Non-negative</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="emission_factor_unit" class="form-label">Emission factor unit</label>
+                <select class="form-select" id="emission_factor_unit" name="emission_factor_unit" required>
+                    <option value="">Select emission factor unit</option>
+                    <option value="kg CO2e/kWh">kg CO2e/kWh</option>
+                    <option value="kg CO2e/MWh">kg CO2e/MWh</option>
+                    <option value="kg CO2e/GWh">kg CO2e/GWh</option>
+                    <option value="kg CO2e/m³">kg CO2e/m³</option>
+                    <option value="kg CO2e/litre">kg CO2e/litre</option>
+                    <option value="kg CO2e/kg">kg CO2e/kg</option>
+                    <option value="kg CO2e/tonne">kg CO2e/tonne</option>
+                    <option value="kg CO2e/km">kg CO2e/km</option>
+                    <option value="kg CO2e/tonne-km">kg CO2e/tonne-km</option>
+                    <option value="kg CO2e/passenger-km">kg CO2e/passenger-km</option>
+                    <option value="kg CO2e/unit sold">kg CO2e/unit sold</option>
+                    <option value="kg CO2e/SEK">kg CO2e/SEK</option>
+                    <option value="kg CO2e/EUR">kg CO2e/EUR</option>
+                    <option value="kg CO2e/number">kg CO2e/number</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <div class="form-text">
+                    Make sure the emission factor unit matches the activity unit, e.g. kWh with kg CO2e/kWh.
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="emission_factor_source" class="form-label">Emission factor source</label>
+            <input
+                type="text"
+                class="form-control"
+                id="emission_factor_source"
+                name="emission_factor_source"
+                placeholder="Example: supplier data, DEFRA, national database, internal calculation">
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="department" class="form-label">Department/function</label>
+                <select class="form-select" id="department" name="department" required>
+                    <option value="">Select department</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Production">Production</option>
+                    <option value="Procurement">Procurement</option>
+                    <option value="Logistics">Logistics</option>
+                    <option value="Finance">Finance</option>
+                    <option value="HR">HR</option>
+                    <option value="Sustainability">Sustainability</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status" required>
+                    <option value="">Select status</option>
+                    <option value="Missing">Missing</option>
+                    <option value="In progress">In progress</option>
+                    <option value="Submitted">Submitted</option>
+                    <option value="Needs review">Needs review</option>
+                    <option value="Verified">Verified</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="data_source" class="form-label">Data source</label>
+            <input
+                type="text"
+                class="form-control"
+                id="data_source"
+                name="data_source"
+                placeholder="Example: invoice, meter reading, ERP export, supplier report">
+        </div>
+
+        <div class="mb-3">
+            <label for="evidence_link" class="form-label">Evidence link</label>
+            <input
+                type="text"
+                class="form-control"
+                id="evidence_link"
+                name="evidence_link"
+                placeholder="Example: file path, document link, invoice reference">
+        </div>
+
+        <div class="mb-4">
+            <label for="notes" class="form-label">Notes</label>
+            <textarea
+                class="form-control"
+                id="notes"
+                name="notes"
+                rows="3"
+                placeholder="Add assumptions, data gaps, calculation notes or comments"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="/emissions" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-success">Save emission record</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

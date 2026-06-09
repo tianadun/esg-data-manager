@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+{% block main %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">Emissions</h1>
+        <p class="text-muted mb-0">
+            Scope 1, Scope 2 and selected Scope 3 emissions records
+        </p>
+    </div>
+    <a class="btn btn-primary" href="/emissions/add">Add emission record</a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form action="/emissions" method="get">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label" for="year">Year</label>
+                    <input class="form-control" id="year" name="year" type="number" min="2020" max="2100" value="{{ selected_year or '' }}" placeholder="2026">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="scope">Scope</label>
+                    <select class="form-select" id="scope" name="scope">
+                        <option value="">All scopes</option>
+                        <option value="Scope 1" {% if selected_scope == "Scope 1" %}selected{% endif %}>Scope 1</option>
+                        <option value="Scope 2" {% if selected_scope == "Scope 2" %}selected{% endif %}>Scope 2</option>
+                        <option value="Scope 3" {% if selected_scope == "Scope 3" %}selected{% endif %}>Scope 3</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="emissions_category">Emissions category</label>
+                    <select class="form-select" id="emissions_category" name="emissions_category">
+                        <option value="">All categories</option>
+                        <option value="Stationary combustion" {% if selected_emissions_category == "Stationary combustion" %}selected{% endif %}>Stationary combustion</option>
+                        <option value="Mobile combustion" {% if selected_emissions_category == "Mobile combustion" %}selected{% endif %}>Mobile combustion</option>
+                        <option value="Process emissions" {% if selected_emissions_category == "Process emissions" %}selected{% endif %}>Process emissions</option>
+                        <option value="Fugitive emissions" {% if selected_emissions_category == "Fugitive emissions" %}selected{% endif %}>Fugitive emissions</option>
+                        <option value="Purchased electricity" {% if selected_emissions_category == "Purchased electricity" %}selected{% endif %}>Purchased electricity</option>
+                        <option value="Purchased heat, steam or cooling" {% if selected_emissions_category == "Purchased heat, steam or cooling" %}selected{% endif %}>Purchased heat, steam or cooling</option>
+                        <option value="Purchased goods and services" {% if selected_emissions_category == "Purchased goods and services" %}selected{% endif %}>Purchased goods and services</option>
+                        <option value="Fuel- and energy-related activities" {% if selected_emissions_category == "Fuel- and energy-related activities" %}selected{% endif %}>Fuel- and energy-related activities</option>
+                        <option value="Upstream transportation and distribution" {% if selected_emissions_category == "Upstream transportation and distribution" %}selected{% endif %}>Upstream transportation and distribution</option>
+                        <option value="Waste generated in operations" {% if selected_emissions_category == "Waste generated in operations" %}selected{% endif %}>Waste generated in operations</option>
+                        <option value="Employee commuting" {% if selected_emissions_category == "Employee commuting" %}selected{% endif %}>Employee commuting</option>
+                        <option value="End-of-life treatment of sold products" {% if selected_emissions_category == "End-of-life treatment of sold products" %}selected{% endif %}>End-of-life treatment of sold products</option>
+                        <option value="Other" {% if selected_emissions_category == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Apply filters</button>
+                <a class="btn btn-outline-secondary" href="/emissions">Clear filters</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if emissions %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Year</th>
+                            <th class="text-center">Period</th>
+                            <th class="text-center">Scope</th>
+                            <th class="text-center">Category</th>
+                            <th class="text-center">Activity</th>
+                            <th class="text-center">Activity value</th>
+                            <th class="text-center">Unit</th>
+                            <th class="text-center">Emissions (tCO₂e)</th>
+                            <th class="text-center">Department</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for emission in emissions %}
+                            <tr>
+                                <td>{{ emission.reporting_year }}</td>
+                                <td>{{ emission.reporting_period }}</td>
+                                <td>{{ emission.scope }}</td>
+                                <td>{{ emission.emissions_category }}</td>
+                                <td>{{ emission.activity_type }}</td>
+                                <td>{{ emission.activity_value }}</td>
+                                <td>{{ emission.activity_unit }}</td>
+                                <td>{{ "%.2f"|format(emission.calculated_emissions_kg / 1000) }}</td>
+                                <td>{{ emission.department }}</td>
+                                <td>{{ emission.status }}</td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-secondary" href="/emissions/edit/{{ emission.id }}">View|Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger" href="/emissions/delete/{{ emission.id }}">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                {% if filters_active %}
+                    <h5>No emissions records match the selected filters</h5>
+                    <p class="text-muted">
+                        Try changing the filters or clear them to see all emissions records
+                    </p>
+                    <a class="btn btn-outline-secondary" href="/emissions">Clear filters</a>
+                {% else %}
+                    <h5>No emissions records yet</h5>
+                    <p class="text-muted">
+                        Start by adding your first emissions record
+                    </p>
+                    <a class="btn btn-primary" href="/emissions/add">Add emission record</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

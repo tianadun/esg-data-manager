@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}
+    Delete emission record
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="card shadow-sm p-4">
+        <h1 class="h4 mb-3">Delete emission record</h1>
+        <p class="text-muted">
+            Please confirm that you want to delete this emissions record. This action cannot be undone.
+        </p>
+
+        <div class="alert alert-warning">
+            <strong>Warning:</strong> You are about to permanently delete this record from the database.
+        </div>
+
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Year</th>
+                    <td>{{ emission.reporting_year }}</td>
+                </tr>
+
+                <tr>
+                    <th>Period</th>
+                    <td>{{ emission.reporting_period }}</td>
+                </tr>
+
+                <tr>
+                    <th>Scope</th>
+                    <td>{{ emission.scope }}</td>
+                </tr>
+
+                <tr>
+                    <th>Category</th>
+                    <td>{{ emission.emissions_category }}</td>
+                </tr>
+
+                <tr>
+                    <th>Activity</th>
+                    <td>{{ emission.activity_type }}</td>
+                </tr>
+
+                <tr>
+                    <th>Calculated emissions</th>
+                    <td>{{ "%.2f"|format(emission.calculated_emissions_kg / 1000) }} tCO2e</td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>{{ emission.status }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="/emissions" class="btn btn-outline-secondary">Cancel</a>
+            <form action="/emissions/delete/{{ emission.id }}" method="post">
+                <button type="submit" class="btn btn-danger">Delete emission record</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
