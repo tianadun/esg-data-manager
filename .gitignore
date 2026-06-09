@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+# Flask/session files
+flask_session/
+instance/
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+# Environment variables and secrets
+.env
+# Virtual environments
+.venv/
+venv/
+env/
+# macOS
+.DS_Store
+# VS Code
+.vscode/
+# Backup archives
+*.zip
