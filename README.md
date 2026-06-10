@@ -149,6 +149,6 @@ Possible future improvements include:
 ## Project Origin
 This project originated as a CS50 final project and was later adapted as a portfolio prototype for sustainability data management and operational reporting workflows.
 
-##Acknowledgements
+## Acknowledgements
 During the development of this project, I used ChatGPT as a learning and coding assistant. The tool helped me discuss project structure, understand Flask and Python syntax, design the dashboard and quality-check workflow, debug errors, and draft or revise parts of the code and documentation.
 I reviewed, tested, modified, and adapted the implementation throughout the development process.
