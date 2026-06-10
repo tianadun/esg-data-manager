@@ -6,18 +6,6 @@ The project demonstrates how operational sustainability data can be organised be
 The application is built around the idea that sustainability reporting is not only about final disclosure text, but also about the structured data work behind the report. Companies need to collect data from different departments, classify it, document data sources, keep evidence references, check reporting status, calculate emissions, and export information for further analysis.
 ESG Data Manager is a simplified prototype of such a workflow. It is designed for a fictional company environment and demonstrates how operational sustainability data can be managed in a small web application.
 
-## Technology Stack 
-The project is implemented mainly in Python using the Flask framework. It uses:
-
-* Python for application logic, validation, emissions calculations, quality checks, and CSV export
-* Flask for routing and web application structure
-* SQLite as the database
-* SQL for database queries
-* HTML with Jinja templating for dynamic web pages
-* Bootstrap for layout and styling
-* CSS for additional visual adjustments
-* Python’s built-in CSV tools for data export
-
 ## Main features
 The app includes user registration, login, and logout. During registration, the user also enters a company name, which is then displayed on the dashboard. Each user has their own datapoints and emissions records, connected to their user ID in the database.
 The main features are:
@@ -32,6 +20,22 @@ The main features are:
 * Combined Quality Check page for reporting-readiness issues
 * CSV export for datapoints and emissions
 * Public About page explaining the prototype and its limitations
+
+## Screenshots
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+### Datapoints
+![Datapoints](screenshots/datapoints.png)
+### Emissions
+![Emissions](screenshots/emissions.png)
+### Add or edit emission
+![Add or edit emission](screenshots/add-edit_emission.png)
+### Quality Check
+![Quality Check](screenshots/quality-check.png)
+### Export
+![Export](screenshots/export.png)
+### About
+![About](screenshots/about.png)
 
 ## Dashboard
 The dashboard is the main entry point after login. It displays the company name and an operational sustainability reporting overview.
@@ -106,6 +110,18 @@ The templates folder contains the HTML templates:
 * apology.html displays controlled error messages.
 
 The static folder contains styles.css, which adds small visual styling improvements.
+
+## Technology Stack 
+The project is implemented mainly in Python using the Flask framework. It uses:
+
+* Python for application logic, validation, emissions calculations, quality checks, and CSV export
+* Flask for routing and web application structure
+* SQLite as the database
+* SQL for database queries
+* HTML with Jinja templating for dynamic web pages
+* Bootstrap for layout and styling
+* CSS for additional visual adjustments
+* Python’s built-in CSV tools for data export
 
 ## Design Choice
 Several design choices were important in this project.
