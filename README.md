@@ -31,7 +31,7 @@ The main features are:
 ### Add or edit emission
 ![Add or edit emission](screenshots/add-edit_emission.png)
 ### Quality Check
-![Quality Check](screenshots/quality-check.png)
+![Quality Check](screenshots/quality_check.png)
 ### Export
 ![Export](screenshots/export.png)
 ### About
