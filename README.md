@@ -96,11 +96,11 @@ This repository contains the source code and documentation for ESG Data Manager.
 Visitors can view the project directly on GitHub by reading this README, looking at the screenshots, and browsing the source code.
 To run the application locally, clone or download this repository and open the project folder in a development environment with Python installed.
 Install the required packages:
-    pip install -r requirements.txt
+* pip install -r requirements.txt
 Create the SQLite database from the schema:
-    sqlite3 esg.db < schema.sql
+* sqlite3 esg.db < schema.sql
 Run the Flask application:
-    flask run
+* flask run
 Then open the local development URL shown in the terminal. After opening the app, a new user can register a company account and start adding datapoints and emissions records.
 At this stage, the project uses the CS50 Python library for database access, so the cs50 package is included in requirements.txt.
 
