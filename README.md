@@ -91,6 +91,19 @@ This page represents the reporting-readiness logic of the prototype. The dashboa
 The Export page allows the user to download all datapoints and all emissions records as CSV files.
 The exported CSV files can be opened in Excel, Numbers, Power BI, or other reporting and analysis tools. For emissions, the export includes both calculated emissions in kilograms of CO2e and calculated emissions in tonnes of CO2e.
 
+## How to View or Run the Project
+This repository contains the source code and documentation for ESG Data Manager. The project is currently shared as a GitHub portfolio repository, not as a permanently deployed live web application.
+Visitors can view the project directly on GitHub by reading this README, looking at the screenshots, and browsing the source code.
+To run the application locally, clone or download this repository and open the project folder in a development environment with Python installed.
+Install the required packages:
+    pip install -r requirements.txt
+Create the SQLite database from the schema:
+    sqlite3 esg.db < schema.sql
+Run the Flask application:
+    flask run
+Then open the local development URL shown in the terminal. After opening the app, a new user can register a company account and start adding datapoints and emissions records.
+At this stage, the project uses the CS50 Python library for database access, so the cs50 package is included in requirements.txt.
+
 ## Project Structure
 The project files are organised as a typical Flask application.
 app.py contains the main Flask routes, database queries, validation logic, emissions calculations, dashboard calculations, quality checks, and CSV export routes.
